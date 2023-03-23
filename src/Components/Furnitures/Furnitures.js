@@ -14,17 +14,17 @@ export default function Furnitures({furnitures, isFurnituresLoading, setFurnitur
     
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const handlePopstate = () => {
-          window.location.reload();
-        };
+    // useEffect(() => {
+    //     const handlePopstate = () => {
+    //       window.location.reload();
+    //     };
       
-        window.addEventListener('popstate', handlePopstate);
+    //     window.addEventListener('popstate', handlePopstate);
       
-        return () => {
-          window.removeEventListener('popstate', handlePopstate);
-        };
-    }, []);
+    //     return () => {
+    //       window.removeEventListener('popstate', handlePopstate);
+    //     };
+    // }, []);
 
     function handleCat(e) {
         setSelectedCat(e.target.value);
