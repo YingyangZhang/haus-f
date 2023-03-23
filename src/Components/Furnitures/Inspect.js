@@ -4,7 +4,7 @@ import RelatedFurnitures from "./RelatedFurnitures";
 import LoadingScreen from "../Loading/LoadingScreen";
 import Footer from "../Footer/Footer";
 
-export default function Inspect({isScrolled, user, setUser, cart, setCart}) {
+export default function Inspect({isScrolled, user, setUser, cart, setCart, setIsForm}) {
     const [furniture, setFurniture] = useState({});
     const [relatedFurnitures, setRelatedFurnitures] = useState([]);
     const { id } = useParams();
@@ -55,42 +55,49 @@ export default function Inspect({isScrolled, user, setUser, cart, setCart}) {
     }, [furniture.category]);
 
     function handleAddToCart() {
-        const alreadyInCart = cart.find(item => item.furniture.name === furniture.name);
-        if (alreadyInCart) {
-            if (alreadyInCart.quantities <= 9) {
-                fetch(`https://haus-db.onrender.com/cart_items/${alreadyInCart.id}`, {
-                    method: 'PATCH',
+
+        if (user.length === 0 ) {
+            setIsForm(true);
+            return;
+        } 
+            const alreadyInCart = cart.find(item => item.furniture.name === furniture.name);
+            
+            if (alreadyInCart) {
+                if (alreadyInCart.quantities <= 9) {
+                    fetch(`https://haus-db.onrender.com/cart_items/${alreadyInCart.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                            'quantities': alreadyInCart.quantities + 1,
+                        })
+                    }).then(r => r.json())
+                    .then(data => {
+                        setCart(data.user.cart_items)
+                    })
+                }
+            } else {
+                fetch('https://haus-db.onrender.com/cart_items/', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
-                        'quantities': alreadyInCart.quantities + 1,
+                        'quantities': 1,
+                        'user_id': user.id,
+                        'furniture_id': furniture.id,
                     })
                 }).then(r => r.json())
                 .then(data => {
+                    setUser(data.user)
                     setCart(data.user.cart_items)
                 })
             }
-        } else {
-            fetch('https://haus-db.onrender.com/cart_items/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    'quantities': 1,
-                    'user_id': user.id,
-                    'furniture_id': furniture.id,
-                })
-            }).then(r => r.json())
-            .then(data => {
-                setUser(data.user)
-                setCart(data.user.cart_items)
-            })
         }
-    }
+    
 
     return ( 
     <div className='inspect-container'>

@@ -82,7 +82,7 @@ function App() {
         </Route>
 
         <Route path='/furnitures/:id' 
-               element={<Inspect isScrolled={isScrolled} user={user} setUser={setUser} cart={cart} setCart={setCart} />} >
+               element={<Inspect isScrolled={isScrolled} user={user} setUser={setUser} cart={cart} setCart={setCart} setIsForm={setIsForm} />} >
         </Route>
 
         <Route path='/cart' 
