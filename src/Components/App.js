@@ -1,5 +1,5 @@
 import '../index.css';
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Header from './Header/Header';
 import Home from './Home/Home';
 import Furnitures from './Furnitures/Furnitures';
@@ -20,7 +20,13 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isForm, setIsForm] = useState(false);
   const [isFurnituresLoading, setIsFurnituresLoading] = useState(false);
+  const [isHome, setIsHome] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const location = useLocation();
   const token = localStorage.getItem("jwt");
+  const whiteText = {
+    color: isHome ? '#fff' : ''
+  };
   
   useEffect(() => {
     if (token !== null) {
@@ -63,10 +69,22 @@ function App() {
     })
   },[])
 
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    setIsHome(location.pathname === "/");
+  }, [location.pathname]);
+
   return (
     <div className="App">
       <ScrollRestoration />
-      <Header setIsForm={setIsForm} user={user} setUser={setUser} cart={cart} />
+      <Header setIsForm={setIsForm} user={user} setUser={setUser} cart={cart} whiteText={whiteText} screenWidth={screenWidth}/>
       {isForm ? <Forms setIsForm={setIsForm} setUser={setUser} setCart={setCart} /> : null}
 
       <Routes>

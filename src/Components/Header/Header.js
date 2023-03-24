@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useRef} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Header({setIsForm, user, setUser, cart}) {
+export default function Header({setIsForm, user, setUser, cart, whiteText, screenWidth}) {
     const [isDropDownMenu, setIsDropDownMenu] = useState(false);
     const navigate = useNavigate();
     let dropDownRef = useRef();
@@ -38,35 +38,35 @@ export default function Header({setIsForm, user, setUser, cart}) {
 
     function capitalizeString(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    }    
 
     return (
         <div className='header-container'>
             <div className='nav-container flex-box'>
-                <NavLink to='/' exact='true' className='header-logo'>HAUS</NavLink>
+                <NavLink to='/' exact='true' className='header-logo' style={whiteText} >HAUS</NavLink>
 
                 <div className={`dropdown-container flex-box grey-background ${isDropDownMenu ? 'show-dropdown' : ''}`} ref={dropDownRef}>
                     <ul className='dropdown-menu flex-box'>
-                        <li onClick={hideDropDown}><NavLink to='/furnitures' exact='true'>Furnitures</NavLink></li>
+                        <li onClick={hideDropDown}><NavLink to='/furnitures' exact='true' style={screenWidth > 730 ? whiteText : null}>Furnitures</NavLink></li>
 
                         {user.length === 0 ? 
                             <li onClick={handleSignIn}>
-                                <p>Login</p>
+                                <p style={screenWidth > 730 ? whiteText : null}>Login</p>
                             </li>
                             :
                             <>
                                 <li onClick={hideDropDown}>
-                                    <NavLink to='/cart' exact='true'>
+                                    <NavLink to='/cart' exact='true' style={screenWidth > 730 ? whiteText : null}>
                                         Cart({cart.length})
                                     </NavLink>
                                 </li>
 
                                 <li onClick={hideDropDown} className='dropdown-menu-profile'>
-                                    <NavLink to='/profile' exact='true'>
+                                    <NavLink to='/profile' exact='true' style={screenWidth > 730 ? whiteText : null}>
                                         {user.username && capitalizeString(user.username)}
                                     </NavLink>
 
-                                    <i className='bx bx-log-out' onClick={handleLogOut} ></i> 
+                                    <i className='bx bx-log-out' onClick={handleLogOut} style={whiteText} ></i> 
                                 </li>
                             </>
                         }
@@ -77,10 +77,10 @@ export default function Header({setIsForm, user, setUser, cart}) {
                         </li>
                     </ul>
 
-                    <i className='bx bx-x' onClick={hideDropDown}></i>
+                    <i className='bx bx-x' onClick={hideDropDown} style={screenWidth > 730 ? whiteText : null}></i>
                 </div>
 
-                <i className='bx bx-menu-alt-right' onClick={() => setIsDropDownMenu(true)}></i>
+                <i className='bx bx-menu-alt-right' onClick={() => setIsDropDownMenu(true)} style={whiteText}></i>
             </div>
         </div>
     )
