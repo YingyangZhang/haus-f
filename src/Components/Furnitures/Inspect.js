@@ -55,73 +55,68 @@ export default function Inspect({isScrolled, user, setUser, cart, setCart, setIs
     }, [furniture.category]);
 
     function handleAddToCart() {
-
-        if (user.length === 0 ) {
-            setIsForm(true);
-            return;
-        } 
-            const alreadyInCart = cart.find(item => item.furniture.name === furniture.name);
+        if (user.length === 0) return setIsForm(true);
             
-            if (alreadyInCart) {
-                if (alreadyInCart.quantities <= 9) {
-                    fetch(`https://haus-db.onrender.com/cart_items/${alreadyInCart.id}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({
-                            'quantities': alreadyInCart.quantities + 1,
-                        })
-                    }).then(r => r.json())
-                    .then(data => {
-                        setCart(data.user.cart_items)
-                    })
-                }
-            } else {
-                fetch('https://haus-db.onrender.com/cart_items/', {
-                    method: 'POST',
+        const alreadyInCart = cart.find(item => item.furniture.name === furniture.name);
+        if (alreadyInCart) {
+            if (alreadyInCart.quantities <= 9) {
+                fetch(`https://haus-db.onrender.com/cart_items/${alreadyInCart.id}`, {
+                    method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
-                        'quantities': 1,
-                        'user_id': user.id,
-                        'furniture_id': furniture.id,
+                        'quantities': alreadyInCart.quantities + 1,
                     })
                 }).then(r => r.json())
                 .then(data => {
-                    setUser(data.user)
                     setCart(data.user.cart_items)
                 })
             }
+        } else {
+            fetch('https://haus-db.onrender.com/cart_items/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    'quantities': 1,
+                    'user_id': user.id,
+                    'furniture_id': furniture.id,
+                })
+            }).then(r => r.json())
+            .then(data => {
+                setUser(data.user)
+                setCart(data.user.cart_items)
+            })
         }
-    
+    }
 
     return ( 
-    <div className='inspect-container'>
+    <div className='inspect-container container'>
         {isLoading && <LoadingScreen />}
 
-        <div className={`inspect-header-container flex-box grey-background ${isScrolled ? 'add-dropshadow' : ''}`}>
-            <div className={`inspect-header-left flex-box ${isScrollingDown ? 'shrink-container' : ''}`}>
-                <div className='inspect-furniture'>
-                    <h1 className={furniture.name && furniture.name.length > 13 ? 'small-font' : 'big-font'}>
-                        {furniture.name}
-                    </h1>
+        <div className='inspect-header-container'>
+            <div className="inspect-header flex-box">
+                <div className='inspect-header-left flex-box'>
+                    <div className='inspect-furniture'>
+                        <h1 className={furniture.name && furniture.name.length > 13 ? 'small-font' : 'big-font'}>
+                            {furniture.name}
+                        </h1>
 
-                    <p className={isScrollingDown ? 'hide-price' : ''}>USD {furniture.price && furniture.price.toLocaleString()}</p>
+                        <p>USD {furniture.price && furniture.price.toLocaleString()}</p>
+                    </div>
                 </div>
 
-                <div className='add-to-cart-button flex-box' onClick={handleAddToCart} >
-                    <i className='bx bx-plus'></i>
+                <div className='inspect-header-right'>
+                    <div className='add-to-cart-button flex-box' onClick={handleAddToCart} >
+                        <i className='bx bx-plus'></i>
 
-                    <p>Add to Cart</p>
+                        <p>Add to Cart</p>
+                    </div>
                 </div>
-            </div>
-
-            <div className={`inspect-header-right ${isScrollingDown ? 'hide-designer' : ''}`}>
-                <p>{furniture.designer}</p>
             </div>
         </div>
 
@@ -137,7 +132,13 @@ export default function Inspect({isScrolled, user, setUser, cart, setCart, setIs
             }
         </div>
         
-        <div className='inspect-details-container'>
+        <div className='inspect-details-container flex-box'>
+            <div className='inspect-detail flex-box'>
+                <p>Designer</p>
+
+                <p>{furniture.designer}</p>
+            </div>
+
             <div className='inspect-detail flex-box'>
                 <p>Material</p>
 

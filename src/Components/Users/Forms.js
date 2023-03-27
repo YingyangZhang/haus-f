@@ -4,7 +4,6 @@ import SignIn from "./SignIn";
 
 export default function Forms({setIsForm, setUser, setCart}) {
     const [isSignUpForm, setIsSignUpForm] = useState(false);
-    
     return (
         <div className='forms-container'>
             {isSignUpForm ? 

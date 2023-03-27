@@ -5,78 +5,36 @@ import Search from "./Search";
 import LoadingScreen from "../Loading/LoadingScreen";
 import Footer from "../Footer/Footer";
 
-export default function Furnitures({user, setUser, setIsForm, furnitures, isFurnituresLoading, setFurnitures, setSearchResult,cart, setCart}) {
+export default function SearchResult({furnitures, isFurnituresLoading, setFurnitures, searchResult, setSearchResult, isScrolled}) {
     const [selectedCat, setSelectedCat] = useState('All');
     const [isSearch, setIsSearch] = useState(false);
-    const filteredFurnitures = furnitures.filter(furniture => {
+    const filteredFurnitures = searchResult.filter(furniture => {
         return selectedCat === "All" ? furniture : furniture.category.category_name === selectedCat;
     });
-    const token = localStorage.getItem("jwt");
     
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const handlePopstate = () => {
-          window.location.reload();
-        };
+    // useEffect(() => {
+    //     const handlePopstate = () => {
+    //       window.location.reload();
+    //     };
       
-        window.addEventListener('popstate', handlePopstate);
+    //     window.addEventListener('popstate', handlePopstate);
       
-        return () => {
-          window.removeEventListener('popstate', handlePopstate);
-        };
-    }, []);
+    //     return () => {
+    //       window.removeEventListener('popstate', handlePopstate);
+    //     };
+    // }, []);
 
     function handleCat(e) {
         setSelectedCat(e.target.value);
     }
 
-    function handleAddToCart(e, furniture) {
-        e.stopPropagation();
-
-        if (user.length === 0) return setIsForm(true);
-            
-        const alreadyInCart = cart.find(item => item.furniture.name === furniture.name);
-        if (alreadyInCart) {
-            if (alreadyInCart.quantities <= 9) {
-                fetch(`https://haus-db.onrender.com/cart_items/${alreadyInCart.id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({
-                        'quantities': alreadyInCart.quantities + 1,
-                    })
-                }).then(r => r.json())
-                .then(data => {
-                    setCart(data.user.cart_items)
-                })
-            }
-        } else {
-            fetch('https://haus-db.onrender.com/cart_items/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    'quantities': 1,
-                    'user_id': user.id,
-                    'furniture_id': furniture.id,
-                })
-            }).then(r => r.json())
-            .then(data => {
-                setUser(data.user)
-                setCart(data.user.cart_items)
-            })
-        }
-    }
-
     return (
-        <div className='furnitures-container container' id='back-to-top'>
+        <div className='furnitures-container search-result-container flex-box container' id='back-to-top'>
             {isFurnituresLoading && <LoadingScreen />}
 
+        <div className="search-result">
             <div className='furnitures-menu-container' >
                 <div className="furnitures-menu flex-box">
                     <div className="category-container flex-box">
@@ -124,14 +82,11 @@ export default function Furnitures({user, setUser, setIsForm, furnitures, isFurn
 
                                 <p>{furniture.name}</p>
                             </div>
-
-                            <div className="quick-add-to-cart-button" onClick={(e) => handleAddToCart(e, furniture)}>
-                                <p>Add to Cart</p>
-                            </div>
                         </div>
                     )
                 })}
             </div>
+        </div>
 
             <Link to="back-to-top"
                 smooth={true}

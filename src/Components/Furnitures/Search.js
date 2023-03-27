@@ -19,7 +19,7 @@ export default function Search({setIsSearch, furnitures, setSearchResult}) {
                 furniture.designer.toLowerCase().replace(/\s/g, '').includes(input.toLowerCase().replace(/\s/g, ''));
         });
 
-        navigate(`/furnitures?q=${input}`);
+        navigate(`/search_result?q=${input}`);
 
         setSearchResult(results);
         

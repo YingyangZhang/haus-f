@@ -46,58 +46,58 @@ export default function Checkout({cart, setCart, isScrolled, user, setUser}) {
     }
 
     return (
-        <div className='checkout-container flex-box'>
-            <div className={`empty-background grey-background ${isScrolled ? 'add-dropshadow' : ''}`}></div>
-
+        <div className='checkout-container flex-box container'>
             <div className='checkout'>
             {cart.length !== 0 &&
-                <div className='checkout-order-container flex-box'>
+                <div className='checkout-order-container'>
                     <div className="checkout-order">
-                        <p className='checkout-headline'>Order Information</p>
+                        <div className="order">
+                            <p className='checkout-headline'>Order Summary</p>
 
-                        <div className='checkout-cards-container'>
-                            {cart.map(item => {
-                                return (
-                                    <div className='checkout-card-container flex-box' key={item.id}>
-                                        <div className='checkout-card flex-box'>
-                                            <div className='checkout-img-container'>
-                                                <img src={item.furniture.image.thumbnail} alt='image' className='img-position' />
+                            <div className='checkout-cards-container'>
+                                {cart.map(item => {
+                                    return (
+                                        <div className='checkout-card-container flex-box' key={item.id}>
+                                            <div className='checkout-card flex-box'>
+                                                <div className='checkout-img-container'>
+                                                    <img src={item.furniture.image.thumbnail} alt='image' className='fixed-img' />
+                                                </div>
+
+                                                <div className='checkout-card-info-container'>
+                                                    <h1>{item.furniture.name}</h1>
+                                                    <p>USD {item.furniture.price.toLocaleString()}</p>
+                                                </div>
                                             </div>
 
-                                            <div className='checkout-card-info-container'>
-                                                <h1>{item.furniture.name}</h1>
-                                                <p>USD {item.furniture.price.toLocaleString()}</p>
-                                            </div>
+                                            <p>x{item.quantities}</p>
                                         </div>
-
-                                        <p>x{item.quantities}</p>
-                                    </div>
-                                )
-                            })}
-                        </div>
-
-                        <div className='checkout-summary-container'>
-                            <div className='checkout-summary'>
-                                <div className='flex-box'>
-                                    <p>Subtotal</p>
-                                    <p>USD {subTotal.toLocaleString()}</p>
-                                </div>
-
-                                <div className='flex-box'>
-                                    <p>Shipping</p>
-                                    <p>USD {shipping}</p>
-                                </div>
-
-                                <div className='flex-box'>
-                                    <p>Taxes</p>
-                                    <p>USD {tax.toLocaleString()}</p>
-                                </div>
+                                    )
+                                })}
                             </div>
 
-                            <div className="checkout-total">
-                                <div className="flex-box">
-                                    <p>Total</p>
-                                    <p>USD {total.toLocaleString()}</p>
+                            <div className='checkout-summary-container'>
+                                <div className='checkout-summary'>
+                                    <div className='flex-box'>
+                                        <p>Subtotal</p>
+                                        <p>USD {subTotal.toLocaleString()}</p>
+                                    </div>
+
+                                    <div className='flex-box'>
+                                        <p>Shipping</p>
+                                        <p>USD {shipping}</p>
+                                    </div>
+
+                                    <div className='flex-box'>
+                                        <p>Taxes</p>
+                                        <p>USD {tax.toLocaleString()}</p>
+                                    </div>
+                                </div>
+
+                                <div className="checkout-total">
+                                    <div className="flex-box">
+                                        <p>Total</p>
+                                        <p>USD {total.toLocaleString()}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +105,7 @@ export default function Checkout({cart, setCart, isScrolled, user, setUser}) {
                     
                     <div className="checkout-forms-container">
                         <form className='form-container checkout-form' >
-                            <h1 className='checkout-headline'>Shipping Information</h1>
+                            <h1 className='checkout-headline '>Shipping Information</h1>
 
                             <div className='form-item-container'>
                                 <p>First Name</p>
@@ -131,7 +131,7 @@ export default function Checkout({cart, setCart, isScrolled, user, setUser}) {
 
                             <div className='form-item-container'>
                                 <p>Phone</p>
-                                <input type='number' placeholder='Your phone number' name='last_name' />
+                                <input type='text' placeholder='Your phone number' name='last_name' />
                             </div>
                         </form>
 
@@ -140,7 +140,7 @@ export default function Checkout({cart, setCart, isScrolled, user, setUser}) {
 
                             <div className='form-item-container'>
                                 <p>Card Number</p>
-                                <input type='number' placeholder='Your card number' name='card_number' />
+                                <input type='text' placeholder='Your card number' name='card_number' />
                             </div>
 
                             <div className='form-item-container'>

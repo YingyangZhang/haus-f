@@ -15,13 +15,13 @@ export default function Home() {
 
     return (
         <div className='home-container' style={homeBackground}>
-            <div className='home-headline-container'>
+            <div className='home-headline-container container'>
                 <h1>'Make a Statement'</h1>
                 
                 <p>Experience the art of furniture.</p>
             </div>
             
-            <div className='home-footer-container'>
+            <div className='home-footer-container container'>
                 <Footer />
             </div>
         </div>
