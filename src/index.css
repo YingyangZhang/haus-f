@@ -670,6 +670,7 @@ input[type="radio"]  {
 }
 
 .related-furnitures-container h1 {
+  color: var(--main-color);
   font-size: var(--big-font-size-mobile);
   margin-bottom: var(--regular-gap-mobile);
 }
