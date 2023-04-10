@@ -94,7 +94,7 @@ img {
 /* ---------- Reuseable Classes ---------- */
 
 .container {
-  max-width: 1500px;
+  max-width: 1950px;
   margin-left: auto;
   margin-right: auto;
   padding-right: 1.2rem;
@@ -349,7 +349,7 @@ img {
 }
 
 .furnitures-menu {
-  max-width: 1449px;
+  max-width: 1900px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -567,7 +567,7 @@ input[type="radio"]  {
 }
 
 .inspect-header {
-  max-width: 1449px;
+  max-width: 1900px;
   margin-left: auto;
   margin-right: auto;
 }
